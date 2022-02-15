@@ -8,11 +8,11 @@ router.post('/user/contact', auth.verifyCustomer, function (req, res) {
     const userId = req.CustomerInfo._id;
     const name = req.body.name;
     const email = req.body.email;
-    
+    const message = req.body.message;
     const cdata = new User({
         name: name,
         email: email,
-       
+        message: message,
         userId: userId
     })
     cdata.save()
