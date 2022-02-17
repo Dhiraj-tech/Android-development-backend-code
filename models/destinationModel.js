@@ -11,9 +11,7 @@ const Destination = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Customer'
     },
-    deimage:{
-        type:String
-    }
+    
 })
 
 module.exports = mongoose.model("Destination", Destination);
