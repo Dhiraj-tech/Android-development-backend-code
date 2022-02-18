@@ -23,7 +23,16 @@ router.post('/destination/insert', auth.verifyCustomer, upload.single('j'), func
         })
 })
 
-
+// to show own product
+router.get("/destination/mydestination", auth.verifyCustomer, function (req, res) {
+    Destination.find()
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch(function () {
+            res.json({ msg: "something went wrong" });
+        })
+});
 
 
 
