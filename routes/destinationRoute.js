@@ -34,6 +34,17 @@ router.get("/destination/mydestination", auth.verifyCustomer, function (req, res
         })
 });
 
+router.get("/destination/single/:did", auth.verifyCustomer, function (req, res) {
+    const did = req.params.did;
+    Destination.findOne({ _id: did })
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch(function () {
+            res.json({ msg: "something went wrong" });
+        })
+})
+
 
 
 
