@@ -46,7 +46,24 @@ router.get("/destination/single/:did", auth.verifyCustomer, function (req, res) 
 })
 
 
+//to update
+router.put('/destination/update', auth.verifyCustomer,upload.single('j'), function (req, res) {
+    // upload.single('blog_images'),
+    const did = req.body.did;
+    const dname = req.body.dname;
+    const deimage = req.file.filename;
+    Destination.updateOne({_id: did} ,{
 
+        dname: dname,
+        deimage : deimage,
+    })
+        .then(function () {
+            res.json({ message: "Destination Updated", success: true})
+        })
+        .catch(function () {
+            res.json({ message: "Something went wrong!" })
+        })
+})
 
 
 module.exports = router;
