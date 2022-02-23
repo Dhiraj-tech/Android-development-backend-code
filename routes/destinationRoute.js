@@ -66,4 +66,28 @@ router.put('/destination/update', auth.verifyCustomer,upload.single('j'), functi
 })
 
 
+router.get('/alldestination', function (req, res) {
+    Destination.find()
+        .then(function (alldestination) {
+            res.json({alldestination })
+        })
+        .catch(function(){
+            res.json({ message: "not found"})
+        })
+})
+
+// to delete
+router.delete('/destination/delete/:did', auth.verifyCustomer, function (req, res) {
+    const _id= req.params.did;
+    
+    Destination.findByIdAndDelete(_id )
+        .then(function () {
+            res.json({ message: "Deleted Successfully", success:true })
+        })
+        .catch(function(){
+            res.json({ message: "Something went wrong!"})
+        })
+})
+
+
 module.exports = router;
