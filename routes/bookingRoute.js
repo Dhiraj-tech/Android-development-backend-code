@@ -7,10 +7,14 @@ router.post("/booking/Booking", auth.verifyCustomer, async function (req, res) {
   const bookingId = req.CustomerInfo._id;
   const countryname = req.body.countryname;
   const city = req.body.city;
+  const people = req.body.people;
+  const payment = req.body.payment;
   
   const bdata = new Booking({
     countryname: countryname,
     city: city,
+    people: people,
+    payment: payment,
     bookingId: bookingId,
   });
   await bdata
