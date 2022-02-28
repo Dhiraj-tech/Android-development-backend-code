@@ -27,6 +27,25 @@ router.post("/booking/Booking", auth.verifyCustomer, async function (req, res) {
     });
 });
 
+router.get("/allbooking", function (req, res) {
+  Booking.find()
+    .then(function (allbooking) {
+      res.json({ allbooking });
+    })
+    .catch(function () {
+      res.json({ message: "not found" });
+    });
+});
+
+router.get("/mybooking", auth.verifyCustomer, function (req, res) {
+  Booking.find()
+    .then(function (result) {
+      res.json(result);
+    })
+    .catch(function () {
+      res.json({ msg: "something went wrong" });
+    });
+});
 
 
 module.exports = router;
