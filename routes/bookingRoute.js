@@ -9,7 +9,7 @@ router.post("/booking/Booking", auth.verifyCustomer, async function (req, res) {
   const city = req.body.city;
   const people = req.body.people;
   const payment = req.body.payment;
-  
+
   const bdata = new Booking({
     countryname: countryname,
     city: city,
@@ -47,6 +47,23 @@ router.get("/mybooking", auth.verifyCustomer, function (req, res) {
     });
 });
 
+
+
+
+
+
+
+
+router.delete("/booking/delete/:id", auth.verifyCustomer, function (req, res) {
+    const bid = req.params.id;
+  Booking.findByIdAndDelete(bid, function (err, docs) {
+    if (!err) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  });
+});
 
 module.exports = router;
 

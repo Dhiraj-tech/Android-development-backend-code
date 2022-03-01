@@ -9,9 +9,11 @@ const upload = require("../uploads/uploads");
 router.post('/destination/insert', auth.verifyCustomer, upload.single('j'), function (req, res) {
     const did = req.CustomerInfo._id;
     const dname = req.body.dname;
-    
+    const deimage = req.file.filename;
+
     const data = new Destination({
         dname: dname,
+        deimage: deimage,
         did: did
     })
     data.save()
@@ -22,6 +24,7 @@ router.post('/destination/insert', auth.verifyCustomer, upload.single('j'), func
             res.json(e)
         })
 })
+
 
 // to show own product
 router.get("/destination/mydestination", auth.verifyCustomer, function (req, res) {
@@ -45,7 +48,6 @@ router.get("/destination/single/:did", auth.verifyCustomer, function (req, res) 
         })
 })
 
-
 //to update
 router.put('/destination/update', auth.verifyCustomer,upload.single('j'), function (req, res) {
     // upload.single('blog_images'),
@@ -64,8 +66,6 @@ router.put('/destination/update', auth.verifyCustomer,upload.single('j'), functi
             res.json({ message: "Something went wrong!" })
         })
 })
-
-
 router.get('/alldestination', function (req, res) {
     Destination.find()
         .then(function (alldestination) {
@@ -88,6 +88,8 @@ router.delete('/destination/delete/:did', auth.verifyCustomer, function (req, re
             res.json({ message: "Something went wrong!"})
         })
 })
+
+
 
 
 module.exports = router;
