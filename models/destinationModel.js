@@ -6,14 +6,22 @@ const Destination = new mongoose.Schema({
         type : String,
         required:true
     },
-    
-    did:{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Customer'
-    },
     deimage:{
         type:String
-    }
+    },
+    description:{
+        type:String
+    },
+    bookings:[
+        {type: mongoose.Schema.Types.ObjectId,
+            ref: 'Customer'}
+
+    ],
+    favorites:[
+        {type: mongoose.Schema.Types.ObjectId,
+            ref: 'Customer'}
+
+    ]
 })
 
 module.exports = mongoose.model("Destination", Destination);

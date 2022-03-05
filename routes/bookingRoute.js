@@ -2,33 +2,45 @@ const express = require("express");
 const Booking = require("../models/BookingModel");
 const router = new express.Router();
 const auth = require("../auth/auth");
+const Customer = require("../models/customerModel");
 
-router.post("/booking/Booking", auth.verifyCustomer, async function (req, res) {
-  const bookingId = req.CustomerInfo._id;
-  const countryname = req.body.countryname;
-  const city = req.body.city;
+
+router.post("/booking", auth.verifyCustomer, async function (req, res) {
+
+  const place = req.body.place;
+  const user = req.body.uid;
   const people = req.body.people;
+  const date = req.body.date;
   const payment = req.body.payment;
 
   const bdata = new Booking({
-    countryname: countryname,
-    city: city,
-    people: people,
-    payment: payment,
-    bookingId: bookingId,
+    place: place,
+    user: user,
+    people:people,
+    date:date,
+    payment:payment
   });
   await bdata
     .save()
     .then(function () {
-      res.json({ meg: "ok", success: true });
+      Customer.findByIdAndUpdate(user, { $push: { bookings: bdata._id } }, (err, docs) => {
+        if (!err) {
+            res.json({ success: true })
+        } else {
+            res.json({ success: false })
+        }
+    })
+
+      
     })
     .catch(function () {
       res.json({ meg: "something wrong!", success: false });
     });
 });
 
+
 router.get("/allbooking", function (req, res) {
-  Booking.find()
+  Booking.find().sort({'date':'-1'}).populate('place').populate('user')
     .then(function (allbooking) {
       res.json({ allbooking });
     })
@@ -37,8 +49,8 @@ router.get("/allbooking", function (req, res) {
     });
 });
 
-router.get("/mybooking", auth.verifyCustomer, function (req, res) {
-  Booking.find()
+router.get("/mybooking/:uid", function (req, res) {
+  Booking.find({user:req.params.uid}).populate("place")
     .then(function (result) {
       res.json(result);
     })

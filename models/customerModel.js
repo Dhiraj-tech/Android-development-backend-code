@@ -17,7 +17,34 @@ const Customer = new mongoose.model("Customer",{
         type : String,
         required:true
     },
+    pp:{
+        type:String,
+        // required:true
+    },
 
+    address: {
+        type : String,
+        // required:true
+    },
+    phone: {
+        type : String,
+        // required:true
+    },
+    about: {
+        type : String,
+        // required:true
+    },
+
+ favorites:[
+        {type: mongoose.Schema.Types.ObjectId,
+            ref: 'Destination'}
+
+    ],
+    bookings:[
+        {type: mongoose.Schema.Types.ObjectId,
+            ref: 'Customer'}
+
+    ],
     
     
 });

@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 
 const Profile = new mongoose.Schema({
-    // image:{
-    //     type:String,
-    //     // required:true
-    // },
+    image:{
+        type:String,
+        // required:true
+    },
 
     name: {
         type : String,

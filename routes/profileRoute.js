@@ -1,5 +1,5 @@
 const express = require("express");
-const Profile = require("../models/profileModel");
+const Profile = require("../models/customerModel");
 const router = new express.Router();
 const auth = require("../auth/auth");
 const upload = require("../uploads/uploads");
@@ -42,9 +42,9 @@ router.get("/profile/myprofile", auth.verifyCustomer, function (req, res) {
         })
 });
 
-router.get("/profile/single/:pid", auth.verifyCustomer, function (req, res) {
+router.get("/profile/single/:pid", function (req, res) {
     const pid = req.params.pid;
-    Profile.findOne({ _id: pid })
+    Profile.findOne({ _id: pid }).populate("favorites")
         .then(function (result) {
             res.json(result)
         })
@@ -54,30 +54,39 @@ router.get("/profile/single/:pid", auth.verifyCustomer, function (req, res) {
 })
 
 //to update
-router.put('/profile/update', auth.verifyCustomer,upload.single('j'), function (req, res) {
+router.put('/profile/update',upload.single('image'), function (req, res) {
+    console.log("allllllll");
+
+    if(req.file == undefined){
+        return res.json({msg:"Invalid file format", success:false})
+    }
     
-    const pid = req.CustomerInfo._id;
-    const name = req.body.name;
+    const pid = req.body.uid;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
     const address = req.body.address;
     const phone = req.body.phone;
-    const about = req.body.about;
+    const about = req.body.bio;
     const image = req.file.filename;
     Profile.updateOne({_id: pid} ,{
 
-        name: name,
-        image: image,
+        firstname: firstname,
+        lastname: lastname,
+        pp: image,
         address:address,
         phone:phone,
         about:about,
-        pid: pid
+        
     })
         .then(function () {
             res.json({ message: "Profile Updated", success: true})
         })
-        .catch(function () {
-            res.json({ message: "Something went wrong!" })
+        .catch(function (e) {
+            res.json({ message: e, success:false })
         })
 })
+
+
 router.get('/allprofile', function (req, res) {
     Profile.find()
         .then(function (allprofile) {

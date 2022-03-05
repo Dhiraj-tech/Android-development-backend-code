@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
  
-mongoose.connect('mongodb://127.0.0.1:27017/Travelapp_assignment', {
+mongoose.connect('mongodb://127.0.0.1:27017/travelapp', {
     useNewUrlParser: true,
     useUnifiedTopology : true
 })
